@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:background-color="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Médicos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+
+    <style>
+
+        .main-search-input-wrap {
+            margin: 20px 0;
+        }
+
+        .main-search-input {
+            display: flex;
+            max-width: 100%;
+            margin: auto;
+        }
+
+        .main-search-input-item input {
+            flex: 1;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            padding-left: 20px;
+        }
+
+        .main-search-button {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .table th,
+        .table td {
+            text-align: center;
+        }
+
+        .btn-outline-info,
+        .btn-outline-danger {
+            width: 80px;
+            margin-right: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="main-search-input-wrap">
+        <div class="main-search-input">
+            <input type="text" class="form-control main-search-input-item" id="searchInput"
+                   placeholder="Pesquisar crm ou nome...">
+            <button class="btn btn-primary main-search-button" onclick="buscarMedicos()">Buscar</button>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">CRM</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Ações</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="m, row : ${medicos}">
+            <td th:text="${m.nome}"></td>
+            <td th:text="${m.crm}"></td>
+            <td th:text="${m.tipo}"></td>
+            <td>
+                <a class="btn btn-outline-info" th:href="@{/medico/editar/{crm}(crm=${m.crm})}">Editar</a>
+                <a class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#confirmDeleteModal-' + ${row.index}">Excluir</a>
+
+                <div class="modal fade" th:id="'confirmDeleteModal-' + ${row.index}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Confirmar Exclusão</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Tem certeza que deseja excluir este médico?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <form th:action="@{/medico/excluir/{crm}(crm=${m.crm})}" method="post" id="deleteForm">
+                                    <button type="submit" class="btn btn-danger">Confirmar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="/medico/novo">Novo</a>
+    <a class="btn btn-primary" href="/">Voltar</a>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<script>
+    function buscarMedicos() {
+        var inputValue = document.getElementById("searchInput").value;
+
+        if (inputValue !== null && inputValue.trim() !== "") {
+            window.location.href = "/medico/pesquisa/" + inputValue;
+        }
+    }
+</script>
+
+<script>
+    function confirmarExclusao() {
+        document.getElementById('deleteForm').submit();
+    }
+</script>
+
+</body>
+</html>
