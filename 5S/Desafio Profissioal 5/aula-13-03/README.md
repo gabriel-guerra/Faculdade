@@ -30,6 +30,9 @@ Normalmente utilizada para funções matemáticas de manipulação dos registros
 
 # Função `.includes` 
 ![image](https://github.com/gabriel-guerra/Faculdade/assets/159430864/0dac9c1b-1ba2-4d9a-9331-7ce971244823)
+
 ![image](https://github.com/gabriel-guerra/Faculdade/assets/159430864/01842296-321e-45de-a488-e7aafb598d45)
+
 ![image](https://github.com/gabriel-guerra/Faculdade/assets/159430864/b6edadd4-836f-4742-9e04-601f8dd136ad)
+
 ![image](https://github.com/gabriel-guerra/Faculdade/assets/159430864/751779b6-ad31-4f76-bf03-25bfa0d14380)
