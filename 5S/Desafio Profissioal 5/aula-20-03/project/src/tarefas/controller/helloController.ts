@@ -1,9 +1,9 @@
-import { Request, response } from "express";
+import { Request, Response } from "express";
 
 class HelloController{
 
     async helloWorld(req: Request, res: Response){
-        return res.status;
+        res.json("OK");
     }
 
 }

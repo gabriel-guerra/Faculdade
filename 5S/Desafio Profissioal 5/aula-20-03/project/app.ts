@@ -28,7 +28,7 @@ class App{
         this.express = express();
         this.middleware();
         this.database();
-        this.router;
+        this.router();
     }
 }
 

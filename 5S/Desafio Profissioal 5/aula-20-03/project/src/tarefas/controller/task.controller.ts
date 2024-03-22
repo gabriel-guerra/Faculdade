@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import taskEntity from "../entity/task.entity";
+import taskService from "../service/task.service";
 
 class TaskController{
 
-    async createTask(){
-
+    async callCreateTask(req: Request, res: Response){
+        return taskService.createTask(req.body);
     }
 
     async listTasksByUser(){
@@ -28,3 +28,5 @@ class TaskController{
     }
 
 }
+
+export default new TaskController()
