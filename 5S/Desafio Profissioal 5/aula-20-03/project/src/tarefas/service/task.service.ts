@@ -3,34 +3,52 @@ import taskRepository from "../repository/task.repository";
 class TaskService{
 
     async createTask(task: any){
-
-        console.log(await this.checkMissingData(task));
-        console.log(await this.checkInvalidData(task));
-        console.log(await this.checkDataNotEmpty(task));
-
-        return await taskRepository.executeCreateTask(task);
+        const result = await Promise.all([this.checkMissingData(task), this.checkInvalidData(task), this.checkDataNotEmpty(task)]);
+        if(!result.some(item => item !== null)){
+            return await taskRepository.executeCreateTask(task);
+        }else{
+            return "Erro ao criar a tarefa. Verifique os campos e tente novamente.";
+        }
     }
+
+    async findTaskById(id: any){
+        return await taskRepository.executeFindById(id);
+    }
+
+    async findTaskByTitle(param: any){
+        
+        let search = {
+            "title": {$regex: param}
+        }
+        
+        return await taskRepository.executeFind(search);
+    }
+
+
+
 
 
     //métodos de validação de dados -> deveriam ficar no middleware?
 
     async checkMissingData(data: any){
-        const schemaKeys = await Object.keys(taskRepository.getSchemaData());
-        const dataEntries = Object.entries(data);
-        const invalidEntries = dataEntries.filter(field => !schemaKeys.includes(field[0]));
-        return invalidEntries.map(entry => entry[0]);
+        const schemaKeys = await taskRepository.getSchemaKeys();
+        const dataKeys = Object.keys(data);
+        const missingKeys = dataKeys.filter(field => !schemaKeys.includes(field));
+        return missingKeys.length > 0 ? missingKeys : null;
     }
 
     async checkInvalidData(data: any){
-        const schemaKeys = await Object.keys(taskRepository.getSchemaData());
+        const schemaKeys = await taskRepository.getSchemaKeys();
         const dataKeys = Object.keys(data);
-        return schemaKeys.filter(field => !dataKeys.includes(field));
+        const invalidKeys = schemaKeys.filter(field => !dataKeys.includes(field));
+        return invalidKeys.length > 0 ? invalidKeys : null;
     }
 
     async checkDataNotEmpty(data: any){
         const entries = Object.entries(data);
         const emptyValues = entries.filter(entry => entry[1] === "");
-        return emptyValues.map(entry => entry[0]);
+        const emptyKeys = emptyValues.map(entry => entry[0]);
+        return emptyKeys.length > 0 ? emptyKeys : null;
     }
 
 

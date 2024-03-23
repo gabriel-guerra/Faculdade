@@ -9,5 +9,6 @@ router.get('/hello', helloController.helloWorld);
 
 //task
 router.post('/tarefa/criar', taskController.callCreateTask);
+router.get('/tarefa/pesquisar', taskController.callfindTask);
 
 export { router };

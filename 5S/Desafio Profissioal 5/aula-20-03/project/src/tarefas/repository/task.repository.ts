@@ -6,13 +6,18 @@ class TaskRepository{
         return await taskEntity.create(task);
     }
     
-    async findById(id: any){
+    async executeFindById(id: any){
         return taskEntity.findById(id);
     }
 
-    async getSchemaData(){
-        return schemaData;
+    async executeFind(param: any){
+        return taskEntity.find(param);
     }
+
+    async getSchemaKeys(){
+        return Object.keys(schemaData);
+    }
+
 
 }
 
