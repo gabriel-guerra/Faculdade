@@ -1,3 +1,4 @@
+import { TaskEnums } from "../enums/task.enum";
 import taskRepository from "../repository/task.repository";
 
 class TaskService{
@@ -7,7 +8,7 @@ class TaskService{
         if(!result.some(item => item !== null)){
             return await taskRepository.executeCreateTask(task);
         }else{
-            return "Erro ao criar a tarefa. Verifique os campos e tente novamente.";
+            return TaskEnums.TASK_NOT_FOUND;
         }
     }
 
@@ -15,11 +16,10 @@ class TaskService{
         return await taskRepository.executeFindById(id);
     }
 
-    async findTaskByTitle(param: any){
+    async findTaskByStringKey(key: string, value: any){
         
-        let search = {
-            "title": {$regex: param}
-        }
+        const text = `{ "${key}": { "$regex": "${value}" } }`;
+        const search = JSON.parse(text);  
         
         return await taskRepository.executeFind(search);
     }
