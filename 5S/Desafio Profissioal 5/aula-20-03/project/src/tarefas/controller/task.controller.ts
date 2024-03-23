@@ -12,7 +12,7 @@ class TaskController{
         if(Object.keys(req.query).includes('id')){
             return res.json(await taskService.findTaskById(req.query.id));
         }else if (Object.keys(req.query).includes('title')){
-            return res.json(await taskService.findTaskByStringKey('title', req.query.title));
+            return res.json(await taskService.findTask('title', req.query.title));
         }else{
             return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
         }

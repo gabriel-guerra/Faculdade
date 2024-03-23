@@ -16,7 +16,7 @@ class TaskService{
         return await taskRepository.executeFindById(id);
     }
 
-    async findTaskByStringKey(key: string, value: any){
+    async findTask(key: string, value: any){
         
         const text = `{ "${key}": { "$regex": "${value}" } }`;
         const search = JSON.parse(text);  
