@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const taskEntity = new Schema({
+const schemaData = {
     title: String,
     description: String,
     creationDate: Date,
@@ -8,9 +8,12 @@ const taskEntity = new Schema({
     category: String,
     status: String, 
     associatedUser: String
-}, {
-    timestamps: true
-});
+};
+
+const taskEntity = new Schema(
+    schemaData, 
+    {timestamps: true}
+    );
 
 export default model('Task', taskEntity);
-
+export {schemaData};

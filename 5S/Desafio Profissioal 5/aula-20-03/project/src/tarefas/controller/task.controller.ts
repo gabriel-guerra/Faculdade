@@ -4,7 +4,7 @@ import taskService from "../service/task.service";
 class TaskController{
 
     async callCreateTask(req: Request, res: Response){
-        return taskService.createTask(req.body);
+        return res.json(await taskService.createTask(req.body));
     }
 
     async listTasksByUser(){

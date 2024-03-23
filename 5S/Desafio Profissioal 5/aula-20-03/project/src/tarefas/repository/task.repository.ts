@@ -1,13 +1,17 @@
-import taskEntity from "../entity/task.entity";
+import taskEntity, { schemaData } from "../entity/task.entity";
 
 class TaskRepository{
 
     async executeCreateTask(task: any){
-        return taskEntity.create(task);
+        return await taskEntity.create(task);
     }
     
     async findById(id: any){
         return taskEntity.findById(id);
+    }
+
+    async getSchemaData(){
+        return schemaData;
     }
 
 }
