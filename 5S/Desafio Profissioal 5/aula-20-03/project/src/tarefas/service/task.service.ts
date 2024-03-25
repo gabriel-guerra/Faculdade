@@ -43,6 +43,7 @@ class TaskService{
         if (filter){
             return await taskRepository.executeDeleteTask(filter);
         }else{
+            // erro aqui; nesse caso, retornar também 404 via controller
             return TaskEnums.TASK_NOT_FOUND;
         }
         
