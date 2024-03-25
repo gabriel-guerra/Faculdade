@@ -13,21 +13,38 @@ class TaskController{
             return res.json(await taskService.findTaskById(req.query.id));
         }else if (Object.keys(req.query).includes('title')){
             return res.json(await taskService.findTask('title', req.query.title));
+        }else if (Object.keys(req.query).includes('associatedUser')){
+            return res.json(await taskService.findTask('associatedUser', req.query.associatedUser));
         }else{
             return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
         }
     }
 
-    async listTasksByUser(){
-
-    }
-
-    async updateTaskById(){
-
-    }
-
-    async deleteTaskById(){
+    async callUpdateTask(req: Request, res: Response){
         
+        let idOldTask;
+        const newTask = req.body;
+
+        try{
+            idOldTask = req.query.id;
+        }catch (error){
+            return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+        }
+                
+        return res.json(await taskService.updateTask(idOldTask, newTask));
+    }
+
+    async callDeleteTask(req: Request, res: Response){
+
+        let id;
+
+        try{
+            id = req.query.id;
+        }catch (error){
+            return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+        }
+                
+        return res.json(await taskService.deleteTask(id));
     }
 
 }

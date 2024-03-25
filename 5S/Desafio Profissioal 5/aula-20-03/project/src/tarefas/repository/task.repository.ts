@@ -14,6 +14,14 @@ class TaskRepository{
         return taskEntity.find(param);
     }
 
+    async executeUpdateTask(filter: any, task: any){
+        return taskEntity.updateOne(filter, task);
+    }
+
+    async executeDeleteTask(filter: any){
+        return taskEntity.deleteOne(filter);
+    }
+
     async getSchemaKeys(){
         return Object.keys(schemaData);
     }

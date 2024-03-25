@@ -10,5 +10,7 @@ router.get('/hello', helloController.helloWorld);
 //task
 router.post('/tarefa/criar', taskController.callCreateTask);
 router.get('/tarefa/pesquisar', taskController.callfindTask);
+router.put('/tarefa/atualizar', taskController.callUpdateTask);
+router.delete('/tarefa/excluir', taskController.callDeleteTask);
 
 export { router };

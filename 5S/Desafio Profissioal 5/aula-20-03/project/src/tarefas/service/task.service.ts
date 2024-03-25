@@ -4,7 +4,9 @@ import taskRepository from "../repository/task.repository";
 class TaskService{
 
     async createTask(task: any){
+
         const result = await Promise.all([this.checkMissingData(task), this.checkInvalidData(task), this.checkDataNotEmpty(task)]);
+
         if(!result.some(item => item !== null)){
             return await taskRepository.executeCreateTask(task);
         }else{
@@ -19,9 +21,31 @@ class TaskService{
     async findTask(key: string, value: any){
         
         const text = `{ "${key}": { "$regex": "${value}" } }`;
-        const search = JSON.parse(text);  
+        const search = JSON.parse(text);
         
         return await taskRepository.executeFind(search);
+    }
+
+    async updateTask(id: any, newTask: any){
+        const result = await Promise.all([this.checkInvalidData(newTask), this.checkDataNotEmpty(newTask)]);
+
+        if (!result.some(item => item !== null)){
+            const filter = await taskRepository.executeFindById(id);
+            return await taskRepository.executeUpdateTask(filter, newTask);
+        }else{
+            return TaskEnums.TASK_NOT_UPDATED;
+        }
+    }
+
+    async deleteTask(id: any){
+        const filter = await taskRepository.executeFindById(id);
+
+        if (filter){
+            return await taskRepository.executeDeleteTask(filter);
+        }else{
+            return TaskEnums.TASK_NOT_FOUND;
+        }
+        
     }
 
 
@@ -30,24 +54,30 @@ class TaskService{
 
     //métodos de validação de dados -> deveriam ficar no middleware?
 
-    async checkMissingData(data: any){
-        const schemaKeys = await taskRepository.getSchemaKeys();
-        const dataKeys = Object.keys(data);
-        const missingKeys = dataKeys.filter(field => !schemaKeys.includes(field));
-        return missingKeys.length > 0 ? missingKeys : null;
-    }
-
     async checkInvalidData(data: any){
         const schemaKeys = await taskRepository.getSchemaKeys();
         const dataKeys = Object.keys(data);
+
+        const missingKeys = dataKeys.filter(field => !schemaKeys.includes(field));
+
+        return missingKeys.length > 0 ? missingKeys : null;
+    }
+
+    async checkMissingData(data: any){
+        const schemaKeys = await taskRepository.getSchemaKeys();
+        const dataKeys = Object.keys(data);
+
         const invalidKeys = schemaKeys.filter(field => !dataKeys.includes(field));
+
         return invalidKeys.length > 0 ? invalidKeys : null;
     }
 
     async checkDataNotEmpty(data: any){
         const entries = Object.entries(data);
+
         const emptyValues = entries.filter(entry => entry[1] === "");
         const emptyKeys = emptyValues.map(entry => entry[0]);
+
         return emptyKeys.length > 0 ? emptyKeys : null;
     }
 
