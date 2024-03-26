@@ -21,28 +21,17 @@ class CategoryController{
     }
 
     async callUpdateCategory(req: Request, res:Response){
-        let idOldCategory;
-        const newCategory = req.body;
 
-        try{
-            idOldCategory = req.query.id;
-        }catch (error){
-            return res.status(404).send(CategoryEnums.CATEGORY_NOT_FOUND);
-        }
-                
-        return res.json(await categoryService.updateCategory(idOldCategory, newCategory));
+        const result = await categoryService.updateCategory(req.query.id, req.body);
+
+        return result === null ? res.status(404).send(CategoryEnums.CATEGORY_NOT_FOUND) : res.json(result);
     }
 
     async callDeleteCategory(req:Request, res:Response){
-        let id;
+        
+        const result = await categoryService.deleteCategory(req.query.id);
 
-        try{
-            id = req.query.id;
-        }catch (error){
-            return res.status(404).send(CategoryEnums.CATEGORY_NOT_FOUND);
-        }
-                
-        return res.json(await categoryService.deleteCategory(id));
+        return result === null ? res.status(404).send(CategoryEnums.CATEGORY_NOT_FOUND) : res.json(result);
     }
 }
 

@@ -3,11 +3,11 @@ import taskEntity, { schemaData } from "../entity/task.entity";
 class TaskRepository{
 
     async executeCreateTask(task: any){
-        return await taskEntity.create(task);
+        return taskEntity.create(task);
     }
     
     async executeFindById(id: any){
-        return taskEntity.findById(id);
+        return id.length === 24 ? taskEntity.findById(id) : null;
     }
 
     async executeFind(param: any){

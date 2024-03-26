@@ -28,11 +28,17 @@ class CategoryService{
 
 
     async updateCategory(id: any, newCategory: any){
-        const result = await Promise.all([this.checkInvalidData(newCategory), this.checkDataNotEmpty(newCategory)]);
+        const promises = await Promise.all([this.checkInvalidData(newCategory), this.checkDataNotEmpty(newCategory)]);
 
-        if (!result.some(item => item !== null)){
+        if (!promises.some(item => item !== null)){
             const filter = await categoryRepository.executeFindById(id);
-            return await categoryRepository.executeUpdateCategory(filter, newCategory);
+
+            if (filter){
+                return await categoryRepository.executeUpdateCategory(filter, newCategory);
+            }else{
+                return null;
+            }
+            
         }else{
             return CategoryEnums.CATEGORY_NOT_UPDATED;
         }
@@ -44,8 +50,7 @@ class CategoryService{
         if (filter){
             return await categoryRepository.executeDeleteCategory(filter);
         }else{
-            // erro aqui; nesse caso, retornar também 404 via controller
-            return CategoryEnums.CATEGORY_NOT_FOUND;
+            return null;
         }
         
     }

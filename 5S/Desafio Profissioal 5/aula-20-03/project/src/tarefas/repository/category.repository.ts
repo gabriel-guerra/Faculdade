@@ -3,15 +3,15 @@ import categoryEntity, { schemaData } from "../entity/category.entity"
 class CategoryRepository{
     
     async executeCreateCategory(category: any){
-        return await categoryEntity.create(category);
+        return categoryEntity.create(category);
     }
     
     async executeFindById(id: any){
-        return await categoryEntity.findById(id);
+        return id.length === 24 ? categoryEntity.findById(id) : null;
     }
 
     async executeFind(param: any){
-        return await categoryEntity.find(param);
+        return categoryEntity.find(param);
     }
 
     async executeUpdateCategory(filter: any, category: any){

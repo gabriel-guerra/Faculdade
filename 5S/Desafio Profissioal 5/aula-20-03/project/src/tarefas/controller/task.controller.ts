@@ -5,6 +5,7 @@ import { TaskEnums }  from "../enums/task.enum";
 class TaskController{
 
     async callCreateTask(req: Request, res: Response){
+        
         return res.json(await taskService.createTask(req.body));
     }
 
@@ -21,30 +22,18 @@ class TaskController{
     }
 
     async callUpdateTask(req: Request, res: Response){
-        
-        let idOldTask;
-        const newTask = req.body;
+      
+        const result = await taskService.updateTask(req.query.id, req.body);
 
-        try{
-            idOldTask = req.query.id;
-        }catch (error){
-            return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
-        }
-                
-        return res.json(await taskService.updateTask(idOldTask, newTask));
+        return result === null ? res.status(404).send(TaskEnums.TASK_NOT_FOUND) : res.json(result);
     }
 
     async callDeleteTask(req: Request, res: Response){
 
-        let id;
+        const result = await taskService.deleteTask(req.query.id);
 
-        try{
-            id = req.query.id;
-        }catch (error){
-            return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
-        }
-                
-        return res.json(await taskService.deleteTask(id));
+        return result === null ? res.status(404).send(TaskEnums.TASK_NOT_FOUND) : res.json(result);
+
     }
 
 }

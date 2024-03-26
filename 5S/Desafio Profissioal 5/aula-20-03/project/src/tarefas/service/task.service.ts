@@ -31,7 +31,13 @@ class TaskService{
 
         if (!result.some(item => item !== null)){
             const filter = await taskRepository.executeFindById(id);
-            return await taskRepository.executeUpdateTask(filter, newTask);
+
+            if (filter){
+                return await taskRepository.executeUpdateTask(filter, newTask);
+            }else{
+                return null;
+            }
+
         }else{
             return TaskEnums.TASK_NOT_UPDATED;
         }
@@ -43,7 +49,6 @@ class TaskService{
         if (filter){
             return await taskRepository.executeDeleteTask(filter);
         }else{
-            // erro aqui; nesse caso, retornar também 404 via controller
             return TaskEnums.TASK_NOT_FOUND;
         }
         
