@@ -22,15 +22,28 @@ class TaskController{
     }
 
     async callUpdateTask(req: Request, res: Response){
-      
-        const result = await taskService.updateTask(req.query.id, req.body);
 
+        let result;
+
+        if (req.query.id){
+            result = await taskService.updateTask(req.query.id, req.body);
+        }else{
+            res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+        }
+        
         return result === null ? res.status(404).send(TaskEnums.TASK_NOT_FOUND) : res.json(result);
+
     }
 
     async callDeleteTask(req: Request, res: Response){
 
-        const result = await taskService.deleteTask(req.query.id);
+        let result;
+
+        if(req.query.id){
+            result = await taskService.deleteTask(req.query.id);
+        }else{
+            res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+        }
 
         return result === null ? res.status(404).send(TaskEnums.TASK_NOT_FOUND) : res.json(result);
 
