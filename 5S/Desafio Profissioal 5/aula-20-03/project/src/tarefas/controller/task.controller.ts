@@ -6,15 +6,20 @@ class TaskController{
 
     async callCreateTask(req: Request, res: Response){
         
-        return res.json(await taskService.createTask(req.body));
+        return res.status(201).json(await taskService.createTask(req.body));
     }
 
     async callfindTask(req: Request, res: Response){
-        if(Object.keys(req.query).includes('id')){
+
+        const parameters = Object.keys(req.query);
+
+        if (parameters.length === 0){
+            return res.json(await taskService.findAllTasks());
+        }else if(parameters.includes('id')){
             return res.json(await taskService.findTaskById(req.query.id));
-        }else if (Object.keys(req.query).includes('title')){
+        }else if (parameters.includes('title')){
             return res.json(await taskService.findTask('title', req.query.title));
-        }else if (Object.keys(req.query).includes('associatedUser')){
+        }else if (parameters.includes('associatedUser')){
             return res.json(await taskService.findTask('associatedUser', req.query.associatedUser));
         }else{
             return res.status(404).send(TaskEnums.TASK_NOT_FOUND);

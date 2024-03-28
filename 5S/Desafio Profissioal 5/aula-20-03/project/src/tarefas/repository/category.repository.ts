@@ -1,25 +1,30 @@
-import categoryEntity, { schemaData } from "../entity/category.entity"
+import categoryModel, { schemaData } from "../model/category.model"
 
 class CategoryRepository{
     
     async executeCreateCategory(category: any){
-        return categoryEntity.create(category);
+        return categoryModel.create(category);
     }
     
     async executeFindById(id: any){
-        return id.length === 24 ? categoryEntity.findById(id) : null;
+        return id.length === 24 ? categoryModel.findById(id) : null;
+    }
+
+    async executeFindAll(){
+        return categoryModel.find();
     }
 
     async executeFind(param: any){
-        return categoryEntity.find(param);
+        return categoryModel.find(param);
     }
 
+    // usar função findAndUpdate
     async executeUpdateCategory(filter: any, category: any){
-        return categoryEntity.updateOne(filter, category);
+        return categoryModel.updateOne(filter, category);
     }
 
     async executeDeleteCategory(filter: any){
-        return categoryEntity.deleteOne(filter);
+        return categoryModel.deleteOne(filter);
     }
 
     async getSchemaKeys(){

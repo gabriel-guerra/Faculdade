@@ -1,9 +1,10 @@
 import { UserEnums } from "../enums/user.enum";
 import userRepository from "../repository/user.repository";
+import { userType } from "../types/user.type";
 
 class UserService{
 
-    async createUser(user: any){
+    async createUser(user: userType){
 
         const result = await Promise.all([this.checkMissingData(user), this.checkInvalidData(user), this.checkDataNotEmpty(user)]);
 
@@ -18,6 +19,10 @@ class UserService{
         return await userRepository.executeFindById(id);
     }
 
+    async findAllUsers(){
+        return await userRepository.executeFindAll();
+    }
+
     async findUser(key: string, value: any){
         
         const text = `{ "${key}": { "$regex": "${value}" } }`;
@@ -26,7 +31,7 @@ class UserService{
         return await userRepository.executeFind(search);
     }
 
-    async updateUser(id: any, newUser: any){
+    async updateUser(id: any, newUser: userType){
         const result = await Promise.all([this.checkInvalidData(newUser), this.checkDataNotEmpty(newUser)]);
 
         if (!result.some(item => item !== null)){

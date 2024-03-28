@@ -1,4 +1,4 @@
-import userEntity, {schemaData} from "../entity/user.entity";
+import userModel, {schemaData} from "../model/user.model";
 
 
 //https://stackoverflow.com/questions/43092071/how-should-i-store-salts-and-passwords-in-mongodb
@@ -6,23 +6,28 @@ import userEntity, {schemaData} from "../entity/user.entity";
 class UserRepository{
 
     async executeCreate(user: any){
-        return userEntity.create(user);
+        return userModel.create(user);
     }
 
     async executeFindById(id: any){
-        return id.length === 24 ? userEntity.findById(id) : null;
+        return id.length === 24 ? userModel.findById(id) : null;
+    }
+
+    async executeFindAll(){
+        return userModel.find();
     }
 
     async executeFind(param: any){
-        return userEntity.find(param);
+        return userModel.find(param);
     }
 
+    // usar função findAndUpdate
     async executeUpdate(filter: any, user: any){
-        return userEntity.updateOne(filter, user);
+        return userModel.updateOne(filter, user);
     }
 
     async executeDelete(filter: any){
-        return userEntity.deleteOne(filter);
+        return userModel.deleteOne(filter);
     }
 
     async getSchemaKeys(){

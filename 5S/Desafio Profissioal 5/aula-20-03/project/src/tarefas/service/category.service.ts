@@ -1,9 +1,10 @@
 import { CategoryEnums } from "../enums/category.enum";
 import categoryRepository from "../repository/category.repository";
+import { categoryType } from "../types/category.type";
 
 class CategoryService{
 
-    async createCategory(category: any){
+    async createCategory(category: categoryType){
 
         const result = await Promise.all([this.checkMissingData(category), this.checkInvalidData(category), this.checkDataNotEmpty(category)]);
 
@@ -18,6 +19,10 @@ class CategoryService{
         return await categoryRepository.executeFindById(id);
     }
 
+    async findAllCategories(){
+        return await categoryRepository.executeFindAll();
+    }
+
     async findCategory(key: string, value: any){
 
         const text = `{ "${key}": { "$regex": "${value}" } }`;
@@ -27,7 +32,7 @@ class CategoryService{
     }
 
 
-    async updateCategory(id: any, newCategory: any){
+    async updateCategory(id: any, newCategory: categoryType){
         const promises = await Promise.all([this.checkInvalidData(newCategory), this.checkDataNotEmpty(newCategory)]);
 
         if (!promises.some(item => item !== null)){

@@ -6,15 +6,20 @@ class UserController{
 
     async callCreateUser(req: Request, res: Response){
         
-        return res.json(await userService.createUser(req.body));
+        return res.status(201).json(await userService.createUser(req.body));
     }
 
     async callfindUser(req: Request, res: Response){
-        if(Object.keys(req.query).includes('id')){
+
+        const parameters = Object.keys(req.query);
+
+        if(parameters.length === 0){
+            return res.json(await userService.findAllUsers());
+        }else if(parameters.includes('id')){
             return res.json(await userService.findUserById(req.query.id));
-        }else if (Object.keys(req.query).includes('username')){
+        }else if (parameters.includes('username')){
             return res.json(await userService.findUser('username', req.query.username));
-        }else if (Object.keys(req.query).includes('email')){
+        }else if (parameters.includes('email')){
             return res.json(await userService.findUser('email', req.query.email));
         }else{
             return res.status(404).send(UserEnums.USER_NOT_FOUND);

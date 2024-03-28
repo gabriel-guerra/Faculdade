@@ -1,9 +1,10 @@
 import { TaskEnums } from "../enums/task.enum";
 import taskRepository from "../repository/task.repository";
+import { taskType } from "../types/task.type";
 
 class TaskService{
 
-    async createTask(task: any){
+    async createTask(task: taskType){
 
         const result = await Promise.all([this.checkMissingData(task), this.checkInvalidData(task), this.checkDataNotEmpty(task)]);
 
@@ -18,6 +19,10 @@ class TaskService{
         return await taskRepository.executeFindById(id);
     }
 
+    async findAllTasks(){  
+        return await taskRepository.executeFindAll();
+    }
+
     async findTask(key: string, value: any){
         
         const text = `{ "${key}": { "$regex": "${value}" } }`;
@@ -26,7 +31,7 @@ class TaskService{
         return await taskRepository.executeFind(search);
     }
 
-    async updateTask(id: any, newTask: any){
+    async updateTask(id: any, newTask: taskType){
         const result = await Promise.all([this.checkInvalidData(newTask), this.checkDataNotEmpty(newTask)]);
 
         if (!result.some(item => item !== null)){

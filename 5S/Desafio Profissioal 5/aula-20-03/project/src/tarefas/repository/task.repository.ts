@@ -1,25 +1,30 @@
-import taskEntity, { schemaData } from "../entity/task.entity";
+import taskModel, { schemaData } from "../model/task.model";
 
 class TaskRepository{
 
     async executeCreateTask(task: any){
-        return taskEntity.create(task);
+        return taskModel.create(task);
     }
     
     async executeFindById(id: any){
-        return id.length === 24 ? taskEntity.findById(id) : null;
+        return id.length === 24 ? taskModel.findById(id) : null;
+    }
+
+    async executeFindAll(){
+        return taskModel.find();
     }
 
     async executeFind(param: any){
-        return taskEntity.find(param);
+        return taskModel.find(param);
     }
 
+    // usar função findAndUpdate
     async executeUpdateTask(filter: any, task: any){
-        return taskEntity.updateOne(filter, task);
+        return taskModel.updateOne(filter, task);
     }
 
     async executeDeleteTask(filter: any){
-        return taskEntity.deleteOne(filter);
+        return taskModel.deleteOne(filter);
     }
 
     async getSchemaKeys(){

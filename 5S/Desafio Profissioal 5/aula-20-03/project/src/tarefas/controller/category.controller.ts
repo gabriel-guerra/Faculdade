@@ -5,15 +5,20 @@ import { CategoryEnums } from "../enums/category.enum";
 class CategoryController{
 
     async callCreateCategory(req: Request, res: Response){
-        return res.json(await categoryService.createCategory(req.body));
+        return res.status(201).json(await categoryService.createCategory(req.body));
     }
 
     async callFindCategory(req: Request, res: Response){
-        if(Object.keys(req.query).includes('id')){
+
+        const parameters = Object.keys(req.query);
+
+        if(parameters.length === 0){
+            return res.json(await categoryService.findAllCategories());
+        }else if(parameters.includes('id')){
             return res.json(await categoryService.findCategoryById(req.query.id));
-        }else if (Object.keys(req.query).includes('name')){
+        }else if (parameters.includes('name')){
             return res.json(await categoryService.findCategory('name', req.query.name));
-        }else if (Object.keys(req.query).includes('color')){
+        }else if (parameters.includes('color')){
             return res.json(await categoryService.findCategory('color', req.query.color));
         }else{
             return res.status(404).send(CategoryEnums.CATEGORY_NOT_FOUND);
