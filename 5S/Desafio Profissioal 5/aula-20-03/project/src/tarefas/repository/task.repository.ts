@@ -1,8 +1,9 @@
 import taskModel, { schemaData } from "../model/task.model";
+import { taskType } from "../types/task.type";
 
 class TaskRepository{
 
-    async executeCreateTask(task: any){
+    async executeCreateTask(task: taskType){
         return taskModel.create(task);
     }
     
@@ -19,8 +20,8 @@ class TaskRepository{
     }
 
     // usar função findAndUpdate
-    async executeUpdateTask(filter: any, task: any){
-        return taskModel.updateOne(filter, task);
+    async executeUpdateTask(id: any, task: taskType){
+        return taskModel.findByIdAndUpdate(id, task, { new: true });
     }
 
     async executeDeleteTask(filter: any){

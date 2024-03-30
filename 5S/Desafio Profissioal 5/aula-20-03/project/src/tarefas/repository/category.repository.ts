@@ -1,8 +1,9 @@
 import categoryModel, { schemaData } from "../model/category.model"
+import { categoryType } from "../types/category.type";
 
 class CategoryRepository{
     
-    async executeCreateCategory(category: any){
+    async executeCreateCategory(category: categoryType){
         return categoryModel.create(category);
     }
     
@@ -19,8 +20,8 @@ class CategoryRepository{
     }
 
     // usar função findAndUpdate
-    async executeUpdateCategory(filter: any, category: any){
-        return categoryModel.updateOne(filter, category);
+    async executeUpdateCategory(id: any, category: categoryType){
+        return categoryModel.findByIdAndUpdate(id, category, { new: true });
     }
 
     async executeDeleteCategory(filter: any){

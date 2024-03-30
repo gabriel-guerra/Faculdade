@@ -36,7 +36,7 @@ class TaskController{
             res.status(404).send(TaskEnums.TASK_NOT_FOUND);
         }
         
-        return result === null ? res.status(404).send(TaskEnums.TASK_NOT_FOUND) : res.json(result);
+        return result === TaskEnums.TASK_NOT_UPDATED ? res.status(400).send(result) : res.json(result);
 
     }
 

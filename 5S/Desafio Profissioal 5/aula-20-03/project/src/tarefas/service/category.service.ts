@@ -36,14 +36,7 @@ class CategoryService{
         const promises = await Promise.all([this.checkInvalidData(newCategory), this.checkDataNotEmpty(newCategory)]);
 
         if (!promises.some(item => item !== null)){
-            const filter = await categoryRepository.executeFindById(id);
-
-            if (filter){
-                return await categoryRepository.executeUpdateCategory(filter, newCategory);
-            }else{
-                return null;
-            }
-            
+            return await categoryRepository.executeUpdateCategory(id, newCategory);
         }else{
             return CategoryEnums.CATEGORY_NOT_UPDATED;
         }

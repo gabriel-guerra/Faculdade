@@ -35,14 +35,7 @@ class UserService{
         const result = await Promise.all([this.checkInvalidData(newUser), this.checkDataNotEmpty(newUser)]);
 
         if (!result.some(item => item !== null)){
-            const filter = await userRepository.executeFindById(id);
-
-            if (filter){
-                return await userRepository.executeUpdate(filter, newUser);
-            }else{
-                return null;
-            }
-
+            return await userRepository.executeUpdate(id, newUser);
         }else{
             return UserEnums.USER_NOT_UPDATED;
         }

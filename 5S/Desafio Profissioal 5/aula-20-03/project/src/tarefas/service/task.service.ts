@@ -35,14 +35,7 @@ class TaskService{
         const result = await Promise.all([this.checkInvalidData(newTask), this.checkDataNotEmpty(newTask)]);
 
         if (!result.some(item => item !== null)){
-            const filter = await taskRepository.executeFindById(id);
-
-            if (filter){
-                return await taskRepository.executeUpdateTask(filter, newTask);
-            }else{
-                return null;
-            }
-
+            return await taskRepository.executeUpdateTask(id, newTask);
         }else{
             return TaskEnums.TASK_NOT_UPDATED;
         }

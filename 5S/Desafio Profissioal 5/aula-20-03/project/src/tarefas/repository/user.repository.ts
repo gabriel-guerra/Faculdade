@@ -1,11 +1,12 @@
 import userModel, {schemaData} from "../model/user.model";
+import { userType } from "../types/user.type";
 
 
 //https://stackoverflow.com/questions/43092071/how-should-i-store-salts-and-passwords-in-mongodb
 
 class UserRepository{
 
-    async executeCreate(user: any){
+    async executeCreate(user: userType){
         return userModel.create(user);
     }
 
@@ -22,8 +23,8 @@ class UserRepository{
     }
 
     // usar função findAndUpdate
-    async executeUpdate(filter: any, user: any){
-        return userModel.updateOne(filter, user);
+    async executeUpdate(id: any, user: userType){
+        return userModel.findByIdAndUpdate(id, user, { new: true });
     }
 
     async executeDelete(filter: any){

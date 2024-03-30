@@ -36,7 +36,7 @@ class UserController{
             res.status(404).send(UserEnums.USER_NOT_FOUND);
         }
         
-        return result === null ? res.status(404).send(UserEnums.USER_NOT_FOUND) : res.json(result);
+        return result === UserEnums.USER_NOT_UPDATED ? res.status(400).send(UserEnums.USER_NOT_UPDATED) : res.json(result);
     }
 
     async callDeleteUser(req: Request, res: Response){

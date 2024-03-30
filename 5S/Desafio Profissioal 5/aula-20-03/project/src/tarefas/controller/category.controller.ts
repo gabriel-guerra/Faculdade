@@ -35,7 +35,7 @@ class CategoryController{
             res.status(404).send(CategoryEnums.CATEGORY_NOT_FOUND);
         }
         
-        return result === null ? res.status(404).send(CategoryEnums.CATEGORY_NOT_FOUND) : res.json(result);
+        return result === CategoryEnums.CATEGORY_NOT_UPDATED ? res.status(400).send(CategoryEnums.CATEGORY_NOT_UPDATED) : res.json(result);
     }
 
     async callDeleteCategory(req:Request, res:Response){
