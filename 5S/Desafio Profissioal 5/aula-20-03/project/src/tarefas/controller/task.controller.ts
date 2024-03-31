@@ -12,18 +12,55 @@ class TaskController{
     async callfindTask(req: Request, res: Response){
 
         const parameters = Object.keys(req.query);
+        let answer;
 
         if (parameters.length === 0){
-            return res.json(await taskService.findAllTasks());
+            
+            answer = await taskService.findAllTasks();
+
         }else if(parameters.includes('id')){
-            return res.json(await taskService.findTaskById(req.query.id));
-        }else if (parameters.includes('title')){
-            return res.json(await taskService.findTask('title', req.query.title));
+
+            answer = await taskService.findTaskById(req.query.id);
+
         }else if (parameters.includes('associatedUser')){
-            return res.json(await taskService.findTask('associatedUser', req.query.associatedUser));
+
+            answer = await taskService.findTaskRegex('associatedUser', req.query.associatedUser);
+
+        }else if (parameters.includes('category')){
+
+            answer = await taskService.findTaskFilterCategory(req.query.category);
+
+        }else if (parameters.includes('status')){
+
+            answer = await taskService.findTaskFilterStatus(req.query.status);
+
         }else{
-            return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+
+            answer = res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+
         }
+
+        console.log(answer);
+
+        return answer !== TaskEnums.TASK_NOT_FOUND ? res.json(answer) : res.status(404).send(answer);
+
+    }
+
+    async callFindTaskDateInterval(req:Request, res:Response){
+
+        const parameters = req.body;
+
+        const result = await taskService.findTaskFilterDate(parameters);
+        console.log(result);
+
+    }
+
+    async callCountTasks(req: Request, res:Response){
+        return res.json(await taskService.countTaskOfUser(req.params.user));
+    }
+
+    async callFindMostRecentTask(req: Request, res:Response){
+        return res.json(await taskService.findMostRecentTask(req.params.user));
     }
 
     async callUpdateTask(req: Request, res: Response){

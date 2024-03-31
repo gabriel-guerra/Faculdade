@@ -1,6 +1,7 @@
 import { TaskEnums } from "../enums/task.enum";
 import taskRepository from "../repository/task.repository";
 import { taskType } from "../types/task.type";
+import { userType } from "../types/user.type";
 
 class TaskService{
 
@@ -23,12 +24,65 @@ class TaskService{
         return await taskRepository.executeFindAll();
     }
 
-    async findTask(key: string, value: any){
+    async findTaskRegex(key: string, value: any){
         
-        const text = `{ "${key}": { "$regex": "${value}" } }`;
-        const search = JSON.parse(text);
+        if (key && value){
+            const text = `{ "${key}": { "$regex": "${value}" } }`;
+            const search = JSON.parse(text);
+            
+            return await taskRepository.executeFind(search);
+        }else{
+            return TaskEnums.TASK_NOT_FOUND;
+        }
         
-        return await taskRepository.executeFind(search);
+    }
+
+    async findTaskFilterCategory(filter: any){
+
+        const allTasks = await this.findAllTasks();
+        const result = allTasks.filter(item => item.category === filter);
+
+        return result.length === 0 ? null : result;
+
+    }
+
+    async findTaskFilterStatus(filter: any){
+
+        const allTasks = await this.findAllTasks();
+        const result = allTasks.filter(item => item.status === filter);
+
+        return result.length === 0 ? null : result;
+
+    }
+
+    async findTaskFilterDate(filter: any){
+
+        let startDate = new Date(filter.startDate);
+        let endDate = new Date(filter.endDate);
+
+        const allTasks = await this.findAllTasks();
+        const result = allTasks.filter(item => item.conclusionDate! < endDate && item.conclusionDate! > startDate);
+
+        return result.length === 0 ? null : result;
+
+    }
+
+    async countTaskOfUser(user: string){
+
+        const userTasks = await this.findTaskRegex('associatedUser', user);
+
+        return userTasks !== null ? userTasks.length : null;
+
+    }
+
+    async findMostRecentTask(user: string){
+
+        const userTasks = await this.findTaskRegex('associatedUser', user);
+
+        if(userTasks){
+            //const mostRecentTask = userTasks.find(item => item.creationDate > new Date())
+        }
+
     }
 
     async updateTask(id: any, newTask: taskType){
