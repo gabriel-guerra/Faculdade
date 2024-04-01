@@ -62,6 +62,10 @@ class TaskController{
         return res.json(await taskService.findMostRecentTask(req.params.user));
     }
 
+    async callAvgConclusion(req:Request, res:Response){
+        return res.json(await taskService.findAvgConclusion());
+    }
+
     async callUpdateTask(req: Request, res: Response){
 
         let result;

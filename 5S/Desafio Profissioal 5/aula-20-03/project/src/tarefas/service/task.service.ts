@@ -84,6 +84,18 @@ class TaskService{
 
     }
 
+    async findAvgConclusion(){
+        const allTasks = await this.findAllTasks();
+        const conclusions = allTasks.map(item => {
+            const differenceInTime = item.conclusionDate!.getTime() - item.creationDate!.getTime();
+            const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+            return differenceInDays;
+        });
+        
+        const soma = conclusions.reduce((v1, v2) => v1 + v2, 0);
+        return (soma/conclusions.length);
+    }
+
     async updateTask(id: any, newTask: taskType){
         const result = await Promise.all([this.checkInvalidData(newTask), this.checkDataNotEmpty(newTask)]);
 
