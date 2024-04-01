@@ -1,7 +1,6 @@
 import { TaskEnums } from "../enums/task.enum";
 import taskRepository from "../repository/task.repository";
 import { taskType } from "../types/task.type";
-import { userType } from "../types/user.type";
 
 class TaskService{
 

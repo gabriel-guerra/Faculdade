@@ -14,45 +14,44 @@ class TaskController{
         const parameters = Object.keys(req.query);
         let answer;
 
-        if (parameters.length === 0){
-            
+        if (parameters.length === 0){           
             answer = await taskService.findAllTasks();
 
         }else if(parameters.includes('id')){
-
             answer = await taskService.findTaskById(req.query.id);
 
         }else if (parameters.includes('associatedUser')){
-
             answer = await taskService.findTaskRegex('associatedUser', req.query.associatedUser);
 
         }else if (parameters.includes('category')){
-
             answer = await taskService.findTaskFilterCategory(req.query.category);
 
-        }else if (parameters.includes('status')){
-
-            answer = await taskService.findTaskFilterStatus(req.query.status);
-
         }else{
-
-            answer = res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+            answer = null;
 
         }
 
-        console.log(answer);
-
-        return answer !== TaskEnums.TASK_NOT_FOUND ? res.json(answer) : res.status(404).send(answer);
+        if (!answer){
+            return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+        }else{
+            return answer !== TaskEnums.TASK_NOT_FOUND ? res.json(answer) : res.status(404).send(answer);
+        }
 
     }
 
+    async CallListConcluded(req: Request, res:Response){
+        const result =  await taskService.findTaskFilterStatus('Concluída');
+        return result !== null ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+    }
+
+    async CallListPending(req: Request, res:Response){
+        const result =  await taskService.findTaskFilterStatus('Pendente');
+        return result !== null ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+    }
+
     async callFindTaskDateInterval(req:Request, res:Response){
-
-        const parameters = req.body;
-
-        const result = await taskService.findTaskFilterDate(parameters);
-        console.log(result);
-
+        const result = await taskService.findTaskFilterDate(req.body);
+        return result !== null ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_BETWEEN_DATES);
     }
 
     async callCountTasks(req: Request, res:Response){

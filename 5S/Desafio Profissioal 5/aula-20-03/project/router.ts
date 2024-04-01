@@ -11,11 +11,14 @@ router.get('/hello', helloController.helloWorld);
 
 //task
 router.post('/tarefa/criar', taskController.callCreateTask);
-router.get('/tarefa/pesquisar', taskController.callfindTask);
-router.post('/tarefa/pesquisar/data', taskController.callFindTaskDateInterval);
 router.put('/tarefa/atualizar', taskController.callUpdateTask);
 router.delete('/tarefa/excluir', taskController.callDeleteTask);
+
+router.get('/tarefa/pesquisar', taskController.callfindTask);
+router.post('/tarefa/pesquisar/data', taskController.callFindTaskDateInterval);
 router.get('/tarefa/contar/:user', taskController.callCountTasks);
+router.get('/tarefa/pendentes', taskController.CallListPending);
+router.get('/tarefa/concluidas', taskController.CallListConcluded);
 
 
 //category
