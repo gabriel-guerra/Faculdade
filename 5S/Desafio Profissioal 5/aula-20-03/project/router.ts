@@ -19,6 +19,7 @@ router.get('/tarefa/contar/:user', taskController.callCountTasks);
 router.get('/tarefa/media-conclusao', taskController.callAvgConclusion);
 router.get('/tarefa/pendentes', taskController.CallListPending);
 router.get('/tarefa/concluidas', taskController.CallListConcluded);
+router.get('/tarefa/maior-descricao', taskController.callFindBiggestDescription);
 
 
 //category

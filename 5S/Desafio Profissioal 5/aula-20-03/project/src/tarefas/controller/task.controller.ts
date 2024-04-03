@@ -66,6 +66,10 @@ class TaskController{
         return res.json(await taskService.findAvgConclusion());
     }
 
+    async callFindBiggestDescription(req:Request, res:Response){
+        return res.json(await taskService.findBiggestDescription());
+    }
+
     async callUpdateTask(req: Request, res: Response){
 
         let result;

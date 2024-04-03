@@ -86,14 +86,26 @@ class TaskService{
 
     async findAvgConclusion(){
         const allTasks = await this.findAllTasks();
-        const conclusions = allTasks.map(item => {
-            const differenceInTime = item.conclusionDate!.getTime() - item.creationDate!.getTime();
-            const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-            return differenceInDays;
+        const daysToConclusion = allTasks.map(item => {
+            const diff = (item.conclusionDate!.getTime() - item.creationDate!.getTime()) / (1000 * 3600 * 24);
+            return diff;
         });
         
-        const soma = conclusions.reduce((v1, v2) => v1 + v2, 0);
-        return (soma/conclusions.length);
+        const soma = daysToConclusion.reduce((v1, v2) => v1 + v2, 0);
+        return (soma/daysToConclusion.length);
+    }
+
+    async findBiggestDescription(){
+        const allTasks = await this.findAllTasks();
+        let maxValue = 0;
+
+        /* const description = allTasks.map (item => {
+            const biggestDesc = item.description!.length;
+            maxValue = Math.max(maxValue, biggestDesc);
+        });
+
+        console.log(description);
+        return description; */
     }
 
     async updateTask(id: any, newTask: taskType){
