@@ -6,21 +6,32 @@ class TaskService{
 
     async createTask(task: taskType){
 
-        const result = await Promise.all([this.checkMissingData(task), this.checkInvalidData(task), this.checkDataNotEmpty(task)]);
+        const result = await Promise.all([/* this.checkMissingData(task), */ this.checkInvalidData(task), this.checkDataNotEmpty(task)]);
 
         if(!result.some(item => item !== null)){
-            return await taskRepository.executeCreateTask(task);
+
+            try{
+                return await taskRepository.executeCreateTask(task);
+            }catch(error){
+                console.error(error);
+                return TaskEnums.TASK_NOT_CREATED;
+            }
+
         }else{
-            return TaskEnums.TASK_NOT_FOUND;
+            return TaskEnums.TASK_NOT_CREATED;
         }
+        
     }
 
     async findTaskById(id: any){
         return await taskRepository.executeFindById(id);
     }
 
-    async findAllTasks(){  
-        return await taskRepository.executeFindAll();
+    async findAllTasks(){
+        
+        const result = await taskRepository.executeFindAll();
+        return result.length > 0 ? result : null;
+
     }
 
     async findTaskRegex(key: string, value: any){
@@ -39,18 +50,22 @@ class TaskService{
     async findTaskFilterCategory(filter: any){
 
         const allTasks = await this.findAllTasks();
-        const result = allTasks.filter(item => item.category === filter);
 
-        return result.length === 0 ? null : result;
+        if (allTasks){
+            const result = allTasks.filter(item => item.category === filter);
+            return result.length === 0 ? null : result;
+        }
 
     }
 
     async findTaskFilterStatus(filter: any){
 
         const allTasks = await this.findAllTasks();
-        const result = allTasks.filter(item => item.status === filter);
 
-        return result.length === 0 ? null : result;
+        if (allTasks){
+            const result = allTasks.filter(item => item.status === filter);
+            return result.length === 0 ? null : result;
+        }
 
     }
 
@@ -60,9 +75,11 @@ class TaskService{
         let endDate = new Date(filter.endDate);
 
         const allTasks = await this.findAllTasks();
-        const result = allTasks.filter(item => item.conclusionDate! < endDate && item.conclusionDate! > startDate);
 
-        return result.length === 0 ? null : result;
+        if (allTasks){
+            const result = allTasks.filter(item => item.conclusionDate! < endDate && item.conclusionDate! > startDate);
+            return result.length === 0 ? null : result;
+        }
 
     }
 
@@ -86,26 +103,29 @@ class TaskService{
 
     async findAvgConclusion(){
         const allTasks = await this.findAllTasks();
-        const daysToConclusion = allTasks.map(item => {
-            const diff = (item.conclusionDate!.getTime() - item.creationDate!.getTime()) / (1000 * 3600 * 24);
-            return diff;
-        });
-        
-        const soma = daysToConclusion.reduce((v1, v2) => v1 + v2, 0);
-        return (soma/daysToConclusion.length);
+
+        if (allTasks){
+            const daysToConclusion = allTasks.map(item => {
+                const diff = (item.conclusionDate!.getTime() - item.creationDate!.getTime()) / (1000 * 3600 * 24);
+                return diff;
+            });
+                
+            const soma = daysToConclusion.reduce((v1, v2) => v1 + v2, 0);
+            return (soma/daysToConclusion.length);
+        }
     }
 
     async findBiggestDescription(){
         const allTasks = await this.findAllTasks();
-        let maxValue = 0;
 
-        /* const description = allTasks.map (item => {
-            const biggestDesc = item.description!.length;
-            maxValue = Math.max(maxValue, biggestDesc);
-        });
+        if (allTasks){
+            const description = allTasks.map(item => item.description?.length);
+            console.log(description)
+            const t = Math.max(description.length)
 
-        console.log(description);
-        return description; */
+            console.log(t);
+        }
+        //return description;
     }
 
     async updateTask(id: any, newTask: taskType){
@@ -144,14 +164,14 @@ class TaskService{
         return missingKeys.length > 0 ? missingKeys : null;
     }
 
-    async checkMissingData(data: any){
+    /* async checkMissingData(data: any){
         const schemaKeys = await taskRepository.getSchemaKeys();
         const dataKeys = Object.keys(data);
 
         const invalidKeys = schemaKeys.filter(field => !dataKeys.includes(field));
 
         return invalidKeys.length > 0 ? invalidKeys : null;
-    }
+    } */
 
     async checkDataNotEmpty(data: any){
         const entries = Object.entries(data);

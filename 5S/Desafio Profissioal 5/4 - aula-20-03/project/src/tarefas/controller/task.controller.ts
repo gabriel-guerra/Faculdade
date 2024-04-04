@@ -6,35 +6,48 @@ class TaskController{
 
     async callCreateTask(req: Request, res: Response){
         
-        return res.status(201).json(await taskService.createTask(req.body));
+        const result = await taskService.createTask(req.body);
+        return result !== TaskEnums.TASK_NOT_CREATED ? res.status(201).json(result) : res.status(400).send(result);
+
     }
+
+    async callfindTaskById(req: Request, res: Response){
+
+        const result = await taskService.findTaskById(req.params.id);
+        return result ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+
+    }
+
+    async callfindAllTasks(req: Request, res: Response){
+
+        const result = await taskService.findAllTasks();
+        return result ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+
+    }
+
 
     async callfindTask(req: Request, res: Response){
 
         const parameters = Object.keys(req.query);
-        let answer;
+        let result;
 
         if (parameters.length === 0){           
-            answer = await taskService.findAllTasks();
-
-        }else if(parameters.includes('id')){
-            answer = await taskService.findTaskById(req.query.id);
-
+            
         }else if (parameters.includes('associatedUser')){
-            answer = await taskService.findTaskRegex('associatedUser', req.query.associatedUser);
+            result = await taskService.findTaskRegex('associatedUser', req.query.associatedUser);
 
         }else if (parameters.includes('category')){
-            answer = await taskService.findTaskFilterCategory(req.query.category);
+            result = await taskService.findTaskFilterCategory(req.query.category);
 
         }else{
-            answer = null;
+            result = null;
 
         }
 
-        if (!answer){
+        if (!result){
             return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
         }else{
-            return answer !== TaskEnums.TASK_NOT_FOUND ? res.json(answer) : res.status(404).send(answer);
+            return result !== TaskEnums.TASK_NOT_FOUND ? res.json(result) : res.status(404).send(result);
         }
 
     }

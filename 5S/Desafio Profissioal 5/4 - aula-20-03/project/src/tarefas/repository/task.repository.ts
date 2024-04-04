@@ -18,8 +18,8 @@ class TaskRepository{
     async executeFind(param: any){
         
         const result = await taskModel.find(param);
-        
         return result.length === 0 ? null : result;
+        
     }
 
     // usar função findAndUpdate
