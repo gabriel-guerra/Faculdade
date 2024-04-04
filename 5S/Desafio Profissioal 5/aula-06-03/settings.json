@@ -1,5 +1,0 @@
-{
-    //ctrl+shift+p -> open user settings (json)
-    "workbench.startupEditor": "none",
-    "editor.formatOnSave": false
-}
