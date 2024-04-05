@@ -11,17 +11,17 @@ router.get('/hello', helloController.helloWorld);
 
 //task
 router.post('/tarefa/criar', taskController.callCreateTask);
-router.put('/tarefa/atualizar', taskController.callUpdateTask);
-router.delete('/tarefa/excluir', taskController.callDeleteTask);
-router.get('/tarefa/pesquisar/', taskController.callfindAllTasks);
-router.get('/tarefa/pesquisar/id/:id', taskController.callfindTaskById);
-//router.get('/tarefa/pesquisar/id/:id', taskController.callfindTask);
-//router.get('/tarefa/pesquisar/id/:id', taskController.callfindTask);
+router.put('/tarefa/atualizar/:id', taskController.callUpdateTask);
+router.delete('/tarefa/excluir/:id', taskController.callDeleteTask);
+router.get('/tarefa/pesquisar', taskController.callFindAllTasks);
+router.get('/tarefa/pesquisar/id/:id', taskController.callFindTaskById);
+router.get('/tarefa/pesquisar/designado/:associatedUser', taskController.callFindTasksOfUser);
+router.get('/tarefa/pesquisar/categoria/:category', taskController.callFindTasksByCategory);
 router.post('/tarefa/pesquisar/data', taskController.callFindTaskDateInterval);
-router.get('/tarefa/contar/:user', taskController.callCountTasks);
+router.get('/tarefa/contar/:user', taskController.callCountUserTasks);
 router.get('/tarefa/media-conclusao', taskController.callAvgConclusion);
-router.get('/tarefa/pendentes', taskController.CallListPending);
-router.get('/tarefa/concluidas', taskController.CallListConcluded);
+router.get('/tarefa/pendentes', taskController.callFindTasksPending);
+router.get('/tarefa/concluidas', taskController.callFindTasksConcluded);
 router.get('/tarefa/maior-descricao', taskController.callFindBiggestDescription);
 
 

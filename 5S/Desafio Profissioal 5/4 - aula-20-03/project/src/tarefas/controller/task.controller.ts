@@ -5,59 +5,36 @@ import { TaskEnums }  from "../enums/task.enum";
 class TaskController{
 
     async callCreateTask(req: Request, res: Response){
-        
         const result = await taskService.createTask(req.body);
         return result !== TaskEnums.TASK_NOT_CREATED ? res.status(201).json(result) : res.status(400).send(result);
-
     }
 
-    async callfindTaskById(req: Request, res: Response){
-
+    async callFindTaskById(req: Request, res: Response){
         const result = await taskService.findTaskById(req.params.id);
         return result ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
-
     }
 
-    async callfindAllTasks(req: Request, res: Response){
-
+    async callFindAllTasks(req: Request, res: Response){
         const result = await taskService.findAllTasks();
         return result ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
-
     }
 
-
-    async callfindTask(req: Request, res: Response){
-
-        const parameters = Object.keys(req.query);
-        let result;
-
-        if (parameters.length === 0){           
-            
-        }else if (parameters.includes('associatedUser')){
-            result = await taskService.findTaskRegex('associatedUser', req.query.associatedUser);
-
-        }else if (parameters.includes('category')){
-            result = await taskService.findTaskFilterCategory(req.query.category);
-
-        }else{
-            result = null;
-
-        }
-
-        if (!result){
-            return res.status(404).send(TaskEnums.TASK_NOT_FOUND);
-        }else{
-            return result !== TaskEnums.TASK_NOT_FOUND ? res.json(result) : res.status(404).send(result);
-        }
-
+    async callFindTasksOfUser(req: Request, res: Response){
+        const result = await taskService.findTaskRegex('associatedUser', req.params.associatedUser);
+        return result ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
     }
 
-    async CallListConcluded(req: Request, res:Response){
+    async callFindTasksByCategory(req: Request, res: Response){
+        const result = await taskService.findTaskFilterCategory(req.params.category);
+        return result ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+    }
+
+    async callFindTasksConcluded(req: Request, res:Response){
         const result =  await taskService.findTaskFilterStatus('Concluída');
         return result !== null ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
     }
 
-    async CallListPending(req: Request, res:Response){
+    async callFindTasksPending(req: Request, res:Response){
         const result =  await taskService.findTaskFilterStatus('Pendente');
         return result !== null ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
     }
@@ -67,7 +44,7 @@ class TaskController{
         return result !== null ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_BETWEEN_DATES);
     }
 
-    async callCountTasks(req: Request, res:Response){
+    async callCountUserTasks(req: Request, res:Response){
         return res.json(await taskService.countTaskOfUser(req.params.user));
     }
 
@@ -87,8 +64,8 @@ class TaskController{
 
         let result;
 
-        if (req.query.id){
-            result = await taskService.updateTask(req.query.id, req.body);
+        if (req.params.id){
+            result = await taskService.updateTask(req.params.id, req.body);
         }else{
             res.status(404).send(TaskEnums.TASK_NOT_FOUND);
         }
@@ -101,13 +78,13 @@ class TaskController{
 
         let result;
 
-        if(req.query.id){
-            result = await taskService.deleteTask(req.query.id);
+        if(req.params.id){
+            result = await taskService.deleteTask(req.params.id);
         }else{
             res.status(404).send(TaskEnums.TASK_NOT_FOUND);
         }
 
-        return result === null ? res.status(404).send(TaskEnums.TASK_NOT_FOUND) : res.json(result);
+        return result === TaskEnums.TASK_NOT_FOUND ? res.status(404).send(result) : res.json(result);
 
     }
 

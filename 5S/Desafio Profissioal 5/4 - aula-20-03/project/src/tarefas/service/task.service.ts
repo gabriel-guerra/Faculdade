@@ -6,7 +6,7 @@ class TaskService{
 
     async createTask(task: taskType){
 
-        const result = await Promise.all([/* this.checkMissingData(task), */ this.checkInvalidData(task), this.checkDataNotEmpty(task)]);
+        const result = await Promise.all([this.checkMissingData(task), this.checkInvalidData(task), this.checkDataNotEmpty(task)]);
 
         if(!result.some(item => item !== null)){
 
@@ -42,7 +42,7 @@ class TaskService{
             
             return await taskRepository.executeFind(search);
         }else{
-            return TaskEnums.TASK_NOT_FOUND;
+            return null;
         }
         
     }
@@ -164,14 +164,14 @@ class TaskService{
         return missingKeys.length > 0 ? missingKeys : null;
     }
 
-    /* async checkMissingData(data: any){
+    async checkMissingData(data: any){
         const schemaKeys = await taskRepository.getSchemaKeys();
         const dataKeys = Object.keys(data);
 
         const invalidKeys = schemaKeys.filter(field => !dataKeys.includes(field));
 
         return invalidKeys.length > 0 ? invalidKeys : null;
-    } */
+    }
 
     async checkDataNotEmpty(data: any){
         const entries = Object.entries(data);
