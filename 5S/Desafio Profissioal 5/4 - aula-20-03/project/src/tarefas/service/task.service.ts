@@ -96,7 +96,15 @@ class TaskService{
         const userTasks = await this.findTaskRegex('associatedUser', user);
 
         if(userTasks){
-            //const mostRecentTask = userTasks.find(item => item.creationDate > new Date())
+
+            const mostRecent = userTasks.reduce((taskAnterior, taskAtual) => {
+                return taskAnterior.creationDate > taskAtual.creationDate ? taskAnterior : taskAtual;
+            });
+
+            return mostRecent !== null ? mostRecent : null;
+            
+        }else{
+            return null;
         }
 
     }

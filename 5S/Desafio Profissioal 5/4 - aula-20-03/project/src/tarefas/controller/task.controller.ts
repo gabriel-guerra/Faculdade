@@ -49,7 +49,8 @@ class TaskController{
     }
 
     async callFindMostRecentTask(req: Request, res:Response){
-        return res.json(await taskService.findMostRecentTask(req.params.user));
+        const result = await taskService.findMostRecentTask(req.params.user);
+        return result !== null ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
     }
 
     async callAvgConclusion(req:Request, res:Response){
