@@ -109,6 +109,25 @@ class TaskService{
 
     }
 
+    // testar para ver se atende
+    async findLeastRecentTask(user: string){
+
+        const userTasks = await this.findTaskRegex('associatedUser', user);
+
+        if(userTasks){
+
+            const mostRecent = userTasks.reduce((taskAnterior, taskAtual) => {
+                return taskAnterior.creationDate < taskAtual.creationDate ? taskAnterior : taskAtual;
+            });
+
+            return mostRecent !== null ? mostRecent : null;
+            
+        }else{
+            return null;
+        }
+
+    }
+
     async findAvgConclusion(){
         const allTasks = await this.findAllTasks();
 
@@ -123,17 +142,22 @@ class TaskService{
         }
     }
 
+    // testar para ver se atende
     async findBiggestDescription(){
         const allTasks = await this.findAllTasks();
 
-        if (allTasks){
-            const description = allTasks.map(item => item.description?.length);
-            console.log(description)
-            const t = Math.max(description.length)
+        if(allTasks){
 
-            console.log(t);
+            const biggestDesc = allTasks.reduce((taskAnterior, taskAtual) => {
+                return taskAnterior.description.length > taskAtual.description.length ? taskAnterior : taskAtual;
+            });
+
+            return biggestDesc !== null ? biggestDesc : null;
+            
+        }else{
+            return null;
         }
-        //return description;
+
     }
 
     async updateTask(id: any, newTask: taskType){
