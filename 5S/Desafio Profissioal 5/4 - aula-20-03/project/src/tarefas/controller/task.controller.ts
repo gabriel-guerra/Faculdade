@@ -53,6 +53,11 @@ class TaskController{
         return result !== null ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
     }
 
+    async callFindLeastRecentTask(req: Request, res:Response){
+        const result = await taskService.findLeastRecentTask(req.params.user);
+        return result !== null ? res.json(result) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
+    }
+
     async callAvgConclusion(req:Request, res:Response){
         return res.json(await taskService.findAvgConclusion());
     }

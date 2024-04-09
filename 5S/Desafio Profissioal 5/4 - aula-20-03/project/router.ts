@@ -24,6 +24,7 @@ router.get('/tarefa/contar/:user', taskController.callCountUserTasks);
 router.get('/tarefa/mais-recente/:user', taskController.callFindMostRecentTask);
 router.get('/tarefa/media-conclusao', taskController.callAvgConclusion);
 router.get('/tarefa/maior-descricao', taskController.callFindBiggestDescription);
+router.get('/tarefa/mais-antiga/:user', taskController.callFindLeastRecentTask);
 
 
 //category

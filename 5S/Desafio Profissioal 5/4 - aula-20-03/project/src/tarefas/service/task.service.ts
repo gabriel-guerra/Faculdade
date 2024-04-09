@@ -101,7 +101,10 @@ class TaskService{
                 return taskAnterior.creationDate > taskAtual.creationDate ? taskAnterior : taskAtual;
             });
 
-            return mostRecent !== null ? mostRecent : null;
+            const AllMostRecent = userTasks.filter(item => item.creationDate.getTime() === mostRecent.creationDate.getTime());
+            console.log(AllMostRecent);
+
+            return AllMostRecent !== null ? AllMostRecent : null;
             
         }else{
             return null;
@@ -109,18 +112,20 @@ class TaskService{
 
     }
 
-    // testar para ver se atende
     async findLeastRecentTask(user: string){
 
         const userTasks = await this.findTaskRegex('associatedUser', user);
 
         if(userTasks){
 
-            const mostRecent = userTasks.reduce((taskAnterior, taskAtual) => {
+            const leastRecent = userTasks.reduce((taskAnterior, taskAtual) => {
                 return taskAnterior.creationDate < taskAtual.creationDate ? taskAnterior : taskAtual;
             });
 
-            return mostRecent !== null ? mostRecent : null;
+            const AllLeastRecent = userTasks.filter(item => item.creationDate.getTime() === leastRecent.creationDate.getTime());
+            console.log(AllLeastRecent);
+
+            return AllLeastRecent !== null ? AllLeastRecent : null;
             
         }else{
             return null;
@@ -142,7 +147,6 @@ class TaskService{
         }
     }
 
-    // testar para ver se atende
     async findBiggestDescription(){
         const allTasks = await this.findAllTasks();
 
@@ -157,6 +161,13 @@ class TaskService{
         }else{
             return null;
         }
+
+    }
+
+    async groupByCategory(){
+        
+
+        
 
     }
 

@@ -22,7 +22,13 @@ class TaskRepository{
         
     }
 
-    // usar função findAndUpdate
+    // fazer o group pela categoria pesquisada
+    async executeGroup(param: any){
+
+        const result = taskModel.aggregate([{ $group: {_id: `$category`} }]);
+
+    }
+
     async executeUpdateTask(id: any, task: taskType){
         return taskModel.findByIdAndUpdate(id, task, { new: true });
     }
