@@ -45,7 +45,8 @@ class TaskController{
     }
 
     async callCountUserTasks(req: Request, res:Response){
-        return res.json(await taskService.countTaskOfUser(req.params.user));
+        const result = await taskService.countTaskOfUser(req.params.user);
+        return result !== null ? res.json(result) : res.status(404).send(TaskEnums.ASSOCIATED_USER_NOT_FOUND);
     }
 
     async callFindMostRecentTask(req: Request, res:Response){
@@ -59,11 +60,16 @@ class TaskController{
     }
 
     async callAvgConclusion(req:Request, res:Response){
-        return res.json(await taskService.findAvgConclusion());
+        const result = await taskService.findAvgConclusion();
+        return result !== null ? res.json({"mediaConclusaoDias": result}) : res.status(404).send(TaskEnums.TASK_NOT_FOUND);
     }
 
     async callFindBiggestDescription(req:Request, res:Response){
         return res.json(await taskService.findBiggestDescription());
+    }
+
+    async callGroupByCategory(req:Request, res:Response){
+        return res.json(await taskService.groupByCategory());
     }
 
     async callUpdateTask(req: Request, res: Response){

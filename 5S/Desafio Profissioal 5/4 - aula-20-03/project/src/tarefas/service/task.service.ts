@@ -167,7 +167,8 @@ class TaskService{
     async groupByCategory(){
         
 
-        
+        const result = await taskRepository.executeGroupByCategory();
+        return result;
 
     }
 
@@ -221,6 +222,10 @@ class TaskService{
 
         const emptyValues = entries.filter(entry => entry[1] === "");
         const emptyKeys = emptyValues.map(entry => entry[0]);
+
+        /* if (emptyKeys.length === 1 && emptyKeys[0] === "conclusionDate"){
+            return null;
+        } */
 
         return emptyKeys.length > 0 ? emptyKeys : null;
     }

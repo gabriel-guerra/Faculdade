@@ -23,10 +23,10 @@ class TaskRepository{
     }
 
     // fazer o group pela categoria pesquisada
-    async executeGroup(param: any){
+    async executeGroupByCategory(){
 
-        const result = taskModel.aggregate([{ $group: {_id: `$category`} }]);
-
+        const result = taskModel.aggregate([{$group: {_id: "$category", quantidade: {$sum: 1}}}]);
+        return result;
     }
 
     async executeUpdateTask(id: any, task: taskType){

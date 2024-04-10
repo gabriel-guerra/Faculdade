@@ -25,7 +25,7 @@ router.get('/tarefa/mais-recente/:user', taskController.callFindMostRecentTask);
 router.get('/tarefa/media-conclusao', taskController.callAvgConclusion);
 router.get('/tarefa/maior-descricao', taskController.callFindBiggestDescription);
 router.get('/tarefa/mais-antiga/:user', taskController.callFindLeastRecentTask);
-
+router.get('/tarefa/agrupar-categoria', taskController.callGroupByCategory);
 
 //category
 router.post('/categoria/criar', categoryController.callCreateCategory);
