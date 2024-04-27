@@ -56,7 +56,6 @@ class UserService{
 
 
 
-    //métodos de validação de dados -> deveriam ficar no middleware?
 
     async checkInvalidData(data: any){
         const schemaKeys = await userRepository.getSchemaKeys();

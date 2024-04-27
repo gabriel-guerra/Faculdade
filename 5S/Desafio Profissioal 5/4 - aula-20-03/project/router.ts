@@ -32,6 +32,7 @@ router.post('/categoria/criar', categoryController.callCreateCategory);
 router.get('/categoria/pesquisar', categoryController.callFindCategory);
 router.put('/categoria/atualizar', categoryController.callUpdateCategory);
 router.delete('/categoria/excluir', categoryController.callDeleteCategory);
+router.get('/categoria/:user', categoryController.callFindUserCategories);
 
 //user
 router.post('/usuario/criar', userController.callCreateUser);

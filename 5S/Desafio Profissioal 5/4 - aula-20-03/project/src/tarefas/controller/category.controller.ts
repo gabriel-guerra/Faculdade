@@ -50,6 +50,11 @@ class CategoryController{
 
         return result === null ? res.status(404).send(CategoryEnums.CATEGORY_NOT_FOUND) : res.json(result);
     }
+
+    async callFindUserCategories(req:Request, res:Response){
+        const result = await categoryService.findUserCategories(req.params.user);
+        return result === null ? res.status(404).send(CategoryEnums.CATEGORY_NOT_FOUND) : res.json(result);
+    }
 }
 
 export default new CategoryController();

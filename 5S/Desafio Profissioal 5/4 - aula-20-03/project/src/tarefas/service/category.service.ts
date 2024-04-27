@@ -1,6 +1,7 @@
 import { CategoryEnums } from "../enums/category.enum";
 import categoryRepository from "../repository/category.repository";
 import { categoryType } from "../types/category.type";
+import taskService from "./task.service";
 
 class CategoryService{
 
@@ -53,9 +54,16 @@ class CategoryService{
         
     }
 
+    async findUserCategories(user: String){
+        const userTasks = await taskService.findTaskRegex('associatedUser', user);
+        const categories = userTasks?.map(task => task.category);
+        const unique = [...new Set(categories)];
+
+        return unique.length > 0 ? unique : null;
+    }
 
 
-        //métodos de validação de dados -> deveriam ficar no middleware?
+
 
         async checkInvalidData(data: any){
             const schemaKeys = await categoryRepository.getSchemaKeys();

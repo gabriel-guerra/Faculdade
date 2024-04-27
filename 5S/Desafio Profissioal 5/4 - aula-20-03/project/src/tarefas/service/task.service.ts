@@ -166,9 +166,12 @@ class TaskService{
 
     async groupByCategory(){
         
-
         const result = await taskRepository.executeGroupByCategory();
-        return result;
+        const format = result.map(r => {
+            return {categoria: r._id, quantidade: r.quantidade}
+        })
+
+        return format;
 
     }
 
@@ -194,10 +197,7 @@ class TaskService{
     }
 
 
-
-
-
-    //métodos de validação de dados -> deveriam ficar no middleware?
+    
 
     async checkInvalidData(data: any){
         const schemaKeys = await taskRepository.getSchemaKeys();
