@@ -34,7 +34,7 @@ describe('Testando endpoints de books', () => {
     })
 
     it('Deve recuperar um id especifico', async () => {
-        const id = '662d35c1eb4da2c789984f0f';
+        const id = '660dffa979fdb25d92bdfa7d';
         const response = await request.default(app).get(`/books/${id}`);
         
         expect (response.status).toEqual(200);
