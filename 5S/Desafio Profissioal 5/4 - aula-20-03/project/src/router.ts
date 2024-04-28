@@ -10,16 +10,18 @@ const router = Router();
 router.get('/hello', helloController.helloWorld);
 
 //task
+router.get('/tarefa/pesquisar', taskController.callFindAllTasks);
 router.post('/tarefa/criar', taskController.callCreateTask);
 router.put('/tarefa/atualizar/:id', taskController.callUpdateTask);
 router.delete('/tarefa/excluir/:id', taskController.callDeleteTask);
-router.get('/tarefa/pesquisar', taskController.callFindAllTasks);
 router.get('/tarefa/pesquisar/id/:id', taskController.callFindTaskById);
 router.get('/tarefa/pesquisar/designado/:associatedUser', taskController.callFindTasksOfUser);
 router.get('/tarefa/pesquisar/categoria/:category', taskController.callFindTasksByCategory);
 router.get('/tarefa/concluidas', taskController.callFindTasksConcluded);
 router.get('/tarefa/pendentes', taskController.callFindTasksPending);
 router.post('/tarefa/pesquisar/data', taskController.callFindTaskDateInterval);
+
+
 router.get('/tarefa/contar/:user', taskController.callCountUserTasks);
 router.get('/tarefa/mais-recente/:user', taskController.callFindMostRecentTask);
 router.get('/tarefa/media-conclusao', taskController.callAvgConclusion);
