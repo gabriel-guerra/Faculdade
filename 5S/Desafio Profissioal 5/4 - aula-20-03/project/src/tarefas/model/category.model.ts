@@ -5,10 +5,10 @@ const schemaData = {
     color: String
 }
 
-const categoryEntity = new Schema(schemaData, {
+const categoryModel = new Schema(schemaData, {
     timestamps: true
 });
 
-export default model('Category', categoryEntity);
+export default model('Category', categoryModel);
 export {schemaData};
 

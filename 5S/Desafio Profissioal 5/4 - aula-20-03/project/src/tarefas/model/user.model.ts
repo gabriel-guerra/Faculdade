@@ -7,10 +7,10 @@ const schemaData = {
     weight: Number
 }
 
-const userEntity = new Schema(schemaData, {
+const userModel = new Schema(schemaData, {
     timestamps: true
 });
 
-export default model('User', userEntity);
+export default model('User', userModel);
 export { schemaData };
 

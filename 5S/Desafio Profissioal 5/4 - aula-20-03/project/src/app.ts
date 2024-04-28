@@ -1,6 +1,7 @@
 import express, { Router } from 'express'
 import mongoose from 'mongoose'
 import {router} from './router'
+import { randomUUID } from 'crypto';
 
 class App{
     express: express.Application;
@@ -10,10 +11,19 @@ class App{
     }
 
     private async database() {
-        let collectionName = "desafio-5-taskActivity";
+
+        let collectionName;
+
+        if (process.env.NODE_ENV === 'test'){
+            //collectionName = `${randomUUID().slice(0,4)}-desafio-5-taskActivity`;
+            collectionName = "test-desafio-5-taskActivity";
+        }else{
+            collectionName = "desafio-5-taskActivity";
+        }
+
         try {
             mongoose.set("strictQuery", true);
-            await mongoose.connect(`mongodb://0.0.0.0:27017/${collectionName}`);
+            await mongoose.connect(`mongodb://127.0.0.1:27017/${collectionName}`);
             console.log(`Connected to ${collectionName}`);
         } catch (error) {
             console.error(`Cannot connect to ${collectionName}, error: `, error);

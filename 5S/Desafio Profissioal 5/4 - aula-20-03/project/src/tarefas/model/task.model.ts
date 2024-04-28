@@ -11,10 +11,10 @@ const schemaData = {
     associatedUser: { type: String, required: true }
 };
 
-const taskEntity = new Schema(
+const taskModel = new Schema(
     schemaData, 
     {timestamps: true}
     );
 
-export default model('Task', taskEntity);
+export default model('Task', taskModel);
 export {schemaData};

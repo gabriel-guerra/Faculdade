@@ -1,8 +1,8 @@
 import {Router} from 'express';
-import helloController from './src/tarefas/controller/helloController';
-import taskController from './src/tarefas/controller/task.controller';
-import categoryController from './src/tarefas/controller/category.controller';
-import userController from './src/tarefas/controller/user.controller';
+import helloController from './tarefas/controller/helloController';
+import taskController from './tarefas/controller/task.controller';
+import categoryController from './tarefas/controller/category.controller';
+import userController from './tarefas/controller/user.controller';
 
 const router = Router();
 
