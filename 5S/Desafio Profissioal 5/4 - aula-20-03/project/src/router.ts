@@ -20,8 +20,6 @@ router.get('/tarefa/pesquisar/categoria/:category', taskController.callFindTasks
 router.get('/tarefa/concluidas', taskController.callFindTasksConcluded);
 router.get('/tarefa/pendentes', taskController.callFindTasksPending);
 router.post('/tarefa/pesquisar/data', taskController.callFindTaskDateInterval);
-
-
 router.get('/tarefa/contar/:user', taskController.callCountUserTasks);
 router.get('/tarefa/mais-recente/:user', taskController.callFindMostRecentTask);
 router.get('/tarefa/media-conclusao', taskController.callAvgConclusion);
@@ -34,7 +32,7 @@ router.post('/categoria/criar', categoryController.callCreateCategory);
 router.get('/categoria/pesquisar', categoryController.callFindCategory);
 router.put('/categoria/atualizar', categoryController.callUpdateCategory);
 router.delete('/categoria/excluir', categoryController.callDeleteCategory);
-router.get('/categoria/:user', categoryController.callFindUserCategories);
+router.get('/categoria/designado/:user', categoryController.callFindUserCategories);
 
 //user
 router.post('/usuario/criar', userController.callCreateUser);

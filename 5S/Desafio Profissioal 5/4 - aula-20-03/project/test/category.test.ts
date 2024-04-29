@@ -1,7 +1,3 @@
-test('deve somar 2 + 2', () => {
-    expect (2 + 2).toBe(4)
-})
-
 /* import categoryModel from '../src/tarefas/model/category.model'
 import taskModel from '../src/tarefas/model/task.model'
 import userModel from '../src/tarefas/model/user.model'
@@ -12,7 +8,7 @@ import { users } from './data.users'
 import * as request from 'supertest'
 import app from '../src/app'
 
-describe('Testes das tarefas', () => {
+describe('Testes das categorias', () => {
 
     async function deleteAll(){
 
@@ -60,83 +56,73 @@ describe('Testes das tarefas', () => {
         ])
     })
 
-    it('Deve recuperar todos as tarefas', async () => {
+    it('Deve recuperar todos as categorias', async () => {
 
-        const response = await request.default(app).get('/tarefa/pesquisar');
+        const response = await request.default(app).get('/categoria/pesquisar');
 
         expect(response.status).toEqual(200);
-        expect(response.body.length).toEqual(tasks.length);
+        expect(response.body.length).toEqual(categories.length);
         
     })
 
-    it('Deve criar uma nova tarefa', async () => {
+    it('Deve criar uma nova categoria', async () => {
     
-        const task = {
-            title: "Fazer um relatório de clientes",
-            description: "Gerar um relatório dos clientes ativos.",
-            creationDate: "01/19/2024",
-            conclusionDate: "02/01/2024",
-            category: "Profissional",
-            type: "CRM",
-            status: "Concluída",
-            associatedUser: "gabriel.guerra"
+        const category = {
+            name: "Reunião",
+            color: "Amarelo"
         }
 
-        const response = await request.default(app).post('/tarefa/criar').send(task);
-        const foundTask = await taskModel.findById(response.body._id);
+        const response = await request.default(app).post('/categoria/criar').send(category);
+        const foundCategory = await categoryModel.findById(response.body._id);
 
         expect(response.status).toEqual(201);
         expect(response.body._id).toBeDefined();
-        expect(foundTask?.title).toBe(task.title);
-        expect(foundTask?.description).toBe(task.description);
-        expect(foundTask?.creationDate).toEqual(new Date(task.creationDate));
-        expect(foundTask?.conclusionDate).toEqual(new Date(task.conclusionDate));
-        expect(foundTask?.category).toBe(task.category);
-        expect(foundTask?.type).toBe(task.type);
-        expect(foundTask?.status).toBe(task.status);
-        expect(foundTask?.associatedUser).toBe(task.associatedUser);
+        expect(foundCategory?.name).toBe(category.name);
+        expect(foundCategory?.color).toBe(category.color);
 
     })
 
-    it('Deve Atualizar um registro', async () => {
+    it('Deve Atualizar uma categoria', async () => {
 
-        const taskToUpdate = await taskModel.findOne({title: "Enviar e-mail para fornecedor."});
+        const categoryToUpdate = await categoryModel.findOne({name: "Cultural"});
 
-        const task = {
-            title: "Fazer um relatório de clientes",
-            description: "Gerar um relatório dos clientes ativos.",
-            creationDate: "01/19/2024",
-            conclusionDate: "02/01/2024",
-            category: "Profissional",
-            type: "CRM",
-            status: "Concluída",
-            associatedUser: "gabriel.guerra"
+        const category = {
+            name: "Consulta",
+            color: "Branco"
         }
 
-        const response = await request.default(app).put(`/tarefa/atualizar/${taskToUpdate?._id}`).send(task);
-        const foundTask = await taskModel.findById(response.body._id);
+        const response = await request.default(app).put(`/categoria/atualizar?id=${categoryToUpdate?._id}`).send(category);
+        const foundCategory = await categoryModel.findById(response.body._id);
 
         expect(response.status).toEqual(200);
         expect(response.body._id).toBeDefined();
-        expect(foundTask?.title).toBe(task.title);
-        expect(foundTask?.description).toBe(task.description);
-        expect(foundTask?.creationDate).toEqual(new Date(task.creationDate));
-        expect(foundTask?.conclusionDate).toEqual(new Date(task.conclusionDate));
-        expect(foundTask?.category).toBe(task.category);
-        expect(foundTask?.type).toBe(task.type);
-        expect(foundTask?.status).toBe(task.status);
-        expect(foundTask?.associatedUser).toBe(task.associatedUser);
+        expect(foundCategory?.name).toBe(category.name);
+        expect(foundCategory?.color).toBe(category.color);
 
     })
 
-    it('Deve Excluir um registro', async () => {
+    it('Deve Excluir uma categoria', async () => {
 
-        const taskToDelete = await taskModel.findOne({title: "Estudar para as provas"});
-        const response = await request.default(app).delete(`/tarefa/excluir/${taskToDelete?._id}`);
-        const foundTask = await taskModel.findById(taskToDelete?._id);
+        const categoryToDelete = await categoryModel.findOne({name: "Profissional"});
+        const response = await request.default(app).delete(`/categoria/excluir?id=${categoryToDelete?._id}`);
+        const foundCategory = await categoryModel.findById(categoryToDelete?._id);
 
         expect(response.status).toEqual(200);
-        expect(foundTask).toBe(null);
+        expect(foundCategory).toBe(null);
+
+    })
+
+    it('Deve pesquisar as categorias de um designado', async () => {
+
+        const user = `gabriel.guerra`;
+        const userTasks = tasks.filter(task => task.associatedUser === `${user}`);
+        const userCategories = [...new Set(userTasks.map(task => task.category))]
+
+        const response = await request.default(app).get(`/categoria/designado/${user}`);
+        
+
+        expect(response.status).toEqual(200);
+        expect(response.body).toEqual(userCategories)
 
     })
 }) */

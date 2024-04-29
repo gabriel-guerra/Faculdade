@@ -101,10 +101,7 @@ class TaskService{
                 return taskAnterior.creationDate > taskAtual.creationDate ? taskAnterior : taskAtual;
             });
 
-            const AllMostRecent = userTasks.filter(item => item.creationDate.getTime() === mostRecent.creationDate.getTime());
-            console.log(AllMostRecent);
-
-            return AllMostRecent !== null ? AllMostRecent : null;
+            return mostRecent !== null ? mostRecent : null;
             
         }else{
             return null;
@@ -122,10 +119,7 @@ class TaskService{
                 return taskAnterior.creationDate < taskAtual.creationDate ? taskAnterior : taskAtual;
             });
 
-            const AllLeastRecent = userTasks.filter(item => item.creationDate.getTime() === leastRecent.creationDate.getTime());
-            console.log(AllLeastRecent);
-
-            return AllLeastRecent !== null ? AllLeastRecent : null;
+            return leastRecent !== null ? leastRecent : null;
             
         }else{
             return null;
