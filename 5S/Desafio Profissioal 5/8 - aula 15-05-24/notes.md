@@ -1,1 +1,1 @@
-
+nest g resource books
