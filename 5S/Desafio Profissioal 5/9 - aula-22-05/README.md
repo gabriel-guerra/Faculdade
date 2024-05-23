@@ -18,11 +18,10 @@ Já que as chamadas de JS acontecem de forma assíncrona, ela usa o callstack pa
 Além disso, é o lugar onde todos os valores que são os tipos primitivos como: string, bigInt, boolean, number, undefined e symbol são armazenados. So que aí surge um problema, se só podemos armazenar tipos primitivos na callstack como é que executamos funções, manipulamos variáveis ou arrays que podem crescer dinamicamente? É aí que entra a memory heap.
 
 ## Memory Heap
-A memory heap ou a pilha de memória é o lugar onde são armazenados os endereços de memória que podem ser apontados pelo callstack para trabalhar os `valores de variáveis`, `funções`, `objetos`, `arrays`, etc.\
+A memory heap ou a pilha de memória é o lugar onde são armazenados os endereços de memória que podem ser apontados pelo callstack para trabalhar os `valores de variáveis`, `funções`, `objetos`, `arrays`, etc.\ 
 A grande diferença entre callstack e memory heap do ponto de vista de `armazenamento` é que o callstack guarda dados de tipo de valor `primitivo` enquanto o memory heap guarda dados de `tipo de referência`, que podem crescer dinamicamente como funções, arrays e outros.
 
-Resumindo: callstack é a pilha de execução de funções e o memory heap é a pilha de memória para guardar os dados de tipo de referência.\
-Em JS temos 7 tipos de dados considerados primitivos. São eles:
+Resumindo: callstack é a pilha de execução de funções e o memory heap é a pilha de memória para guardar os dados de tipo de referência. Em JS temos 7 tipos de dados considerados primitivos. São eles:
 - String
 - Number
 - Boolean
