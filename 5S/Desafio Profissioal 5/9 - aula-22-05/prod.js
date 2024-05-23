@@ -8,7 +8,7 @@ function buildMap (array){
             mapValue.push(a)
             map.set(a.categoria, mapValue)
         }else{
-            map.set(a.categoria, a)
+            map.set(a.categoria, [a])
         }
     }
 
@@ -22,6 +22,7 @@ const a = [
     {nome: "Cenoura", categoria: "Legume"},
     {nome: "Brócolis", categoria: "Legume"},
     {nome: "Laranja", categoria: "Fruta"},
+    {nome: "Uva", categoria: "Fruta"},
 ]
 
 buildMap(a);
